@@ -37,17 +37,29 @@ jobs:
         run: docker save -o go_cqhttp.tar go_cqhttp
 
       - name: Save image
-        run: tar -zcvf go_cqhttp_${{ env.version }}.tar.gz go_cqhttp.tar
+        run: tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
+
+      # 发布 Release 因官方归档弃用
+      # - name: 创建GitHub Release
+      #   id: create_release
+      #   uses: actions/create-release@latest
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      #   with:
+      #     tag_name: ${{env.version}}-${{env.today}}
+      #     release_name: go_cqhttp_docker-${{env.version}}-${{env.today}}.tar.gz
+      #     body: version-${{env.version}},date-${{ env.today }}, Have fun.
+      #     draft: false
+      #     prerelease: false
 
       # 发布 Release
-      - name: 创建GitHub Release
-        id: create_release
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{env.version}}-${{env.today}}
-          release_name: go_cqhttp_docker-${{env.version}}-${{env.today}}.tar.gz
+          name: go-cqhttp-docker-${{env.version}}-${{env.today}}
           body: version-${{env.version}},date-${{ env.today }}, Have fun.
           draft: false
           prerelease: false
+          files: |
+            go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz
