@@ -1,0 +1,51 @@
+name: go-cqhttp 镜像构建
+on:
+  workflow_dispatch:
+  inputs:
+      name:
+        description: '创建docke镜像'
+        required: true
+        default: 'create docker_images'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get current date
+        id: date
+        run: echo "::set-output name=today::$(date +'%Y-%m-%d')"
+
+      - name: go-cqhttp version
+        id: version
+        run: echo "::set-output name=version::$(curl -sSL https://api.github.com/repos/Mrs4s/go-cqhttp/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
+
+      - name: Build image-1
+        run: docker build . -t go_cqhttp:${{ steps.date.outputs.today }}
+
+      - name: build image-2
+        run: docker save -o go_cqhttp.tar go_cqhttp
+
+      - name: Save image
+        run: tar -zcvf go_cqhttp_${{ steps.date.outputs.version }}.tar.gz go_cqhttp.tar
+
+      # 发布 Release
+      - name: 创建GitHub Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{steps.date.outputs.version}}-${{steps.date.outputs.today}}
+          release_name: go_cqhttp_docker-${{steps.date.outputs.version}}-${{steps.date.outputs.today}}.tar.gz
+          body: version-${{steps.date.outputs.version}},date-${{ steps.date.outputs.today }}, Have fun.
+          draft: false
+          prerelease: false

@@ -1,0 +1,32 @@
+FROM silicer/go-cqhttp:latest AS silicer
+
+FROM alpine:latest
+
+# 切换国内源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+ENV TZ Asia/Shanghai
+# 修改时区
+RUN apk update && apk --no-cache add bash tzdata \
+    && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+
+# 删除时区包
+RUN apk del tzdata
+
+# 安装ffmpeg
+RUN apk --no-cache add ffmpeg 
+
+# 在容器中创建一个目录
+RUN mkdir -p /app/
+
+# 复制最新的可执行文件到容器中
+COPY --from=silicer /usr/bin/cqhttp /app
+
+# 修改权限
+RUN chmod +x /app/cqhttp
+
+# 定位到容器的工作目录
+WORKDIR /app/
+
+EXPOSE 6800 5700
+ENTRYPOINT [ "/app/cqhttp" ]
