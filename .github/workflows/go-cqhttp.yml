@@ -49,14 +49,11 @@ jobs:
           context: ./go-cqhttp-ffmpeg
           platforms: linux/amd64
 
-      - name: Build image-1
-        run: docker build ./go-cqhttp-ffmpeg -t raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
-
-      - name: build image-2
-        run: docker save -o go_cqhttp.tar raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
-
-      - name: Save image
-        run: tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
+      - name: Build image and save image
+        run: |
+          docker build ./go-cqhttp-ffmpeg -t raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
+          docker save -o go_cqhttp.tar raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
+          tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
 
       # 发布 Release
       - name: Create Release and Upload Release Asset

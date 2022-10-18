@@ -53,16 +53,16 @@ jobs:
         with:
           push: true
           tags: |
-            raventu/ZeroBot-Plugin:latest
-            raventu/ZeroBot-Plugin:${{ env.version }}-${{ env.today }}
+            raventu/zerobot-plugin:latest
+            raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
           context: ./ZeroBot-Plugin
           platforms: linux/amd64
 
       - name: Build image and save image
         run: |
-          docker build ./ZeroBot-Plugin -t raventu/ZeroBot-Plugin:${{ env.version }}-${{ env.today }}
-          run: docker save -o ZeroBot-Plugin.tar raventu/ZeroBot-Plugin:${{ env.version }}-${{ env.today }}
-          tar -zcvf ZeroBot-Plugin-${{ env.version }}-${{env.today}}.tar.gz ZeroBot-Plugin.tar
+          docker build ./ZeroBot-Plugin -t raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
+          run: docker save -o zerobot-plugin.tar raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
+          tar -zcvf zerobot-plugin-${{ env.version }}-${{env.today}}.tar.gz zerobot-plugin.tar
 
       # 发布 Release
       - name: Create Release and Upload Release Asset
@@ -74,4 +74,4 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ZeroBot-Plugin-${{ env.version }}-${{env.today}}.tar.gz
+            zerobot-plugin-${{ env.version }}-${{env.today}}.tar.gz
