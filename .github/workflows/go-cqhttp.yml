@@ -51,8 +51,8 @@ jobs:
 
       - name: Build image and save image
         run: |
-          docker build ./go-cqhttp-ffmpeg -t raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
-          docker save -o go_cqhttp.tar raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
+          docker build ./go-cqhttp-ffmpeg -t go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
+          docker save -o go_cqhttp.tar go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}
           tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
 
       # 发布 Release
