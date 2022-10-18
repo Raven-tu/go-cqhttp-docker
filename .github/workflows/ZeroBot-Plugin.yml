@@ -36,7 +36,8 @@ jobs:
         run: |
           wget "https://github.com/FloatTech/ZeroBot-Plugin/releases/download/${{ env.version }}/zbp_linux_amd64.tar.gz" 
           tar -zxvf zbp_linux_amd64.tar.gz
-          mv ./zbp /app/zbp
+          pwd
+          mv ./zbp /ZeroBot-Plugin/zbp
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
