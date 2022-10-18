@@ -31,13 +31,13 @@ jobs:
         run: |
           echo "version=$(curl -sSL https://api.github.com/repos/FloatTech/ZeroBot-Plugin/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
 
-      # download ZeroBot-Plugin latest release
+      # download ZeroBot-Plugin latest release  
       - name: download laste version
         run: |
           wget "https://github.com/FloatTech/ZeroBot-Plugin/releases/download/${{ env.version }}/zbp_linux_amd64.tar.gz" 
           tar -zxvf zbp_linux_amd64.tar.gz
           pwd
-          mv ./zbp /ZeroBot-Plugin/zbp
+          mv ./zbp /home/runner/work/go-cqhttp-docker/go-cqhttp-docker/ZeroBot-Plugin/zbp
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
