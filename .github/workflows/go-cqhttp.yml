@@ -1,4 +1,4 @@
-name: go-cqhttp-ffmpeg 镜像构建
+name: go-cqhttp-ffmpeg docker build
 on:
   workflow_dispatch:
     inputs:
