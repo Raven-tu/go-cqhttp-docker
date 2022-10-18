@@ -61,7 +61,7 @@ jobs:
       - name: Build image and save image
         run: |
           docker build ./ZeroBot-Plugin -t raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
-          run: docker save -o zerobot-plugin.tar raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
+          docker save -o zerobot-plugin.tar raventu/zerobot-plugin:${{ env.version }}-${{ env.today }}
           tar -zcvf zerobot-plugin-${{ env.version }}-${{env.today}}.tar.gz zerobot-plugin.tar
 
       # 发布 Release
