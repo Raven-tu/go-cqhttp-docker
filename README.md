@@ -25,13 +25,13 @@
 | `/app/device.json`   | `device.json`   | 设备信息   |
 | `/app/session.token` | `session.token` | token      |
 | `/app/logs/`         | `logs`          | 日志文件夹 |
-| `/app/data`          | `data`          | 数据文件夹 |
+| `/app/data/`          | `data`          | 数据文件夹 |
 
 ### 参考命令
 
 ```bash
 docker run -itd --name go_cqhttp \
-  -v /custom_directory/:/app \
+  -v /custom_directory/config.yml:/app/config.yml \
   -p 6800:6800 \
   --restart always \
   raventu/go-cqhttp-ffmpeg:latest
@@ -39,6 +39,7 @@ docker run -itd --name go_cqhttp \
 ```
 
 ## zerobot-plugin
+
 [FloatTech/ZeroBot-Plugin](https://github.com/FloatTech/ZeroBot-Plugin)的 docker 镜像使用最新 releases 构建。
 
 ### docker部署
@@ -54,7 +55,6 @@ docker run -itd --name go_cqhttp \
 | :------------------- | :-------------- | :--------- |
 | `/app/config.json`    | `config.json`    | 配置文件   |
 
-
 ### 参考命令
 
 ```bash
@@ -65,7 +65,6 @@ docker run -itd --name zerobot_plugin \
   --restart always \
   raventu/zerobot-plugin:latest
 ```
-
 
 ## 感谢
 
