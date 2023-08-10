@@ -16,9 +16,8 @@ RUN set -ex \
 FROM alpine:latest
 
 # 切换国内源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
-ENV TZ Asia/Shanghai
 # 修改时区
 RUN apk update && apk --no-cache add bash tzdata \
     && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
