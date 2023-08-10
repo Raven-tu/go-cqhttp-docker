@@ -40,9 +40,9 @@ jobs:
 
       - name: Replace Dockerfile
         run: |
-          rm -rf /home/runner/work/go-cqhttp-docker/go-cqhttp-docker/go-cqhttp/Dockerfile
-          cp /home/runner/work/go-cqhttp-docker/go-cqhttp-docker/my-repo/go-cqhttp-ffmpeg-action/dockerfile /home/runner/work/go-cqhttp-docker/go-cqhttp-docker/go-cqhttp/Dockerfile
-          cd /home/runner/work/go-cqhttp-docker/go-cqhttp-docker/go-cqhttp/
+          rm -rf $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
+          cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/dockerfile $GITHUB_WORKSPACE/go-cqhttp/dockerfile
+          cd $GITHUB_WORKSPACE/go-cqhttp/
         
       - name: ls -l
         run: |
@@ -71,7 +71,7 @@ jobs:
           tags: |
             raventu/go-cqhttp-ffmpeg-action:latest
             raventu/go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
-          context: .
+          context: ./go-cqhttp/
           platforms: linux/amd64
 
       - name: Build image and save image
