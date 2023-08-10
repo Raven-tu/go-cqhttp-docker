@@ -20,8 +20,7 @@ jobs:
       - name: Checkout
         run: |
           git version
-          git clone https://github.com/Mrs4s/go-cqhttp.git /home/runner/work/go-cqhttp/go-cqhttp
-          git checkout dev
+          git clone -b dev git@github.com/Mrs4s/go-cqhttp.git /home/go-cqhttp
 
       - name: Get current date
         id: date
