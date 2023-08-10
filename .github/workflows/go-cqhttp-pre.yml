@@ -64,7 +64,7 @@ jobs:
           tags: |
             raventu/go-cqhttp-ffmpeg-action:latest
             raventu/go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
-          context: ./go-cqhttp-ffmpeg-action
+          context: .
           platforms: linux/amd64
 
       - name: Build image and save image
