@@ -8,6 +8,8 @@ WORKDIR /build
 
 COPY ./ .
 
+RUN pwd && ls -al
+
 RUN set -ex \
     && cd /build \
     && go build -ldflags "-s -w -extldflags '-static'" -o cqhttp
