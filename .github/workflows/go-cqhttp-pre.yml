@@ -1,0 +1,71 @@
+name: go-cqhttp-ffmpeg-action docker build
+on:
+  workflow_dispatch:
+    inputs:
+        name:
+          description: 'create go-cqhttp-ffmpeg-action docker image'
+          required: true
+          default: 'create go-cqhttp-ffmpeg-action docker image'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        run: |
+          git version
+          git clone https://github.com/Mrs4s/go-cqhttp.git /home/runner/work/go-cqhttp/go-cqhttp
+          git checkout dev
+
+      - name: Get current date
+        id: date
+        run: |
+          echo "today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        
+      - name: go-cqhttp version
+        id: version
+        run: |
+          echo "version=$(curl -sSL https://api.github.com/repos/Mrs4s/go-cqhttp/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USER_NAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            raventu/go-cqhttp-ffmpeg-action:latest
+            raventu/go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
+          context: ./go-cqhttp-ffmpeg-action
+          platforms: linux/amd64
+
+      - name: Build image and save image
+        run: |
+          docker build ./go-cqhttp-ffmpeg-action -t go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
+          docker save -o go_cqhttp.tar go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
+          tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
+
+      # 发布 Release
+      - name: Create Release and Upload Release Asset
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{env.version}}-${{env.today}}
+          name: go-cqhttp-action-docker-${{env.version}}-${{env.today}}
+          body: version-${{env.version}},date-${{ env.today }}, Have fun.
+          draft: false
+          prerelease: false
+          files: |
+            go-cqhttp-action-${{ env.version }}-${{env.today}}.tar.gz
