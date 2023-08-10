@@ -1,9 +1,7 @@
-FROM silicer/go-cqhttp:latest AS silicer
-
 FROM alpine:latest
 
 # 切换国内源
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+# RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
 
 ENV TZ Asia/Shanghai
 # 修改时区
@@ -20,7 +18,7 @@ RUN apk --no-cache add ffmpeg
 RUN mkdir -p /app/
 
 # 复制最新的可执行文件到容器中
-COPY --from=silicer /usr/bin/cqhttp /app
+COPY cqhttp /app/cqhttp
 
 # 修改权限
 RUN chmod +x /app/cqhttp

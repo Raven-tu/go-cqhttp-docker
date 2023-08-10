@@ -33,23 +33,12 @@ jobs:
         run: |
           echo "today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
-      - name: ls -l
-        run: |
-          ls -l $GITHUB_WORKSPACE/go-cqhttp
-          ls -l $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action
-
       - name: Replace Dockerfile
         run: |
           rm -rf $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
           cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/dockerfile $GITHUB_WORKSPACE/go-cqhttp/dockerfile
           cd $GITHUB_WORKSPACE/go-cqhttp/
         
-      - name: ls -l
-        run: |
-          ls -l
-          pwd
-          
-
       - name: go-cqhttp version
         id: version
         run: |
@@ -69,25 +58,6 @@ jobs:
         with:
           push: true
           tags: |
-            raventu/go-cqhttp-ffmpeg-action:latest
-            raventu/go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
+            raventu/raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}-action
           context: ./go-cqhttp/
           platforms: linux/amd64
-
-      - name: Build image and save image
-        run: |
-          docker build ./go-cqhttp-ffmpeg-action -t go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
-          docker save -o go_cqhttp.tar go-cqhttp-ffmpeg-action:${{ env.version }}-${{ env.today }}
-          tar -zcvf go-cqhttp-${{ env.version }}-${{env.today}}.tar.gz go_cqhttp.tar
-
-      # 发布 Release
-      - name: Create Release and Upload Release Asset
-        uses: softprops/action-gh-release@v1
-        with:
-          tag_name: ${{env.version}}-${{env.today}}
-          name: go-cqhttp-action-docker-${{env.version}}-${{env.today}}
-          body: version-${{env.version}},date-${{ env.today }}, Have fun.
-          draft: false
-          prerelease: false
-          files: |
-            go-cqhttp-action-${{ env.version }}-${{env.today}}.tar.gz

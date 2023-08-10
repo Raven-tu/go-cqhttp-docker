@@ -30,6 +30,13 @@ jobs:
         run: |
           echo "version=$(curl -sSL https://api.github.com/repos/Mrs4s/go-cqhttp/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')" >> $GITHUB_ENV
 
+      - name: Download latest x64 go-cqhttp release
+        # if: ${{ steps.checker.outputs.ifUpdated == 'true' }}
+        run: |
+          cd go-cqhttp-ffmpeg
+          curl -sSL -O https://github.com/Mrs4s/go-cqhttp/releases/download/${{ env.VERSION }}/go-cqhttp_linux_amd64.tar.gz
+          tar -xzf go-cqhttp_linux_amd64.tar.gz go-cqhttp -O > cqhttp
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
