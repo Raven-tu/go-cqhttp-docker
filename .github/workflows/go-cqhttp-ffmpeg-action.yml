@@ -58,6 +58,6 @@ jobs:
         with:
           push: true
           tags: |
-            raventu/raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}-action
+            raventu/go-cqhttp-ffmpeg:${{ env.version }}-${{ env.today }}-action
           context: ./go-cqhttp/
           platforms: linux/amd64
