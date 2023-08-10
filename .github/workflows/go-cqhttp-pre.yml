@@ -42,7 +42,14 @@ jobs:
         run: |
           rm -rf $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
           cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/dockerfile $GITHUB_WORKSPACE/go-cqhttp/dockerfile
+          cd $GITHUB_WORKSPACE/go-cqhttp/
         
+      - name: ls -l
+        run: |
+          ls -l
+          pwd
+          
+
       - name: go-cqhttp version
         id: version
         run: |
