@@ -4,11 +4,14 @@ RUN go env -w GO111MODULE=auto \
   && go env -w CGO_ENABLED=0 \
   && go env -w GOPROXY=https://goproxy.cn,direct
 
+RUN apk add --no-cache --update \
+      git 
+
 WORKDIR /build
 
 COPY ./ .
 
-RUN pwd && ls -al
+RUN pwd && ls -al && git --version && go version
 
 RUN set -ex \
     && cd /build \
