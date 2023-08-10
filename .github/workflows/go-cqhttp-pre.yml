@@ -19,13 +19,24 @@ jobs:
       - name: Checkout tools repo
         uses: actions/checkout@v3
         with:
+          path: my-repo
+
+      - name: Checkout tools repo
+        uses: actions/checkout@v3
+        with:
           repository: Mrs4s/go-cqhttp
           ref: dev
+          path: go-cqhttp
 
       - name: Get current date
         id: date
         run: |
           echo "today=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+
+      - name: Replace Dockerfile
+        run: |
+          rm $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
+          cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/Dockerfile $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
         
       - name: go-cqhttp version
         id: version
