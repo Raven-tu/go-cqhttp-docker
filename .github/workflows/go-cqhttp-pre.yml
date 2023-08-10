@@ -41,7 +41,7 @@ jobs:
       - name: Replace Dockerfile
         run: |
           rm -rf $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
-          cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/dockerfile $GITHUB_WORKSPACE/go-cqhttp/Dockerfile
+          cp $GITHUB_WORKSPACE/my-repo/go-cqhttp-ffmpeg-action/dockerfile $GITHUB_WORKSPACE/go-cqhttp/dockerfile
         
       - name: go-cqhttp version
         id: version
