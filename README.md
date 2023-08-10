@@ -8,6 +8,8 @@
 
 ## go-cqhttp-ffmpeg
 
+> action 构建版本请使用 [raventu/go-cqhttp-ffmpeg-action](./go-cqhttp-ffmpeg-action/README.md)
+
 [Mrs4s/go-cqhttp](https://github.com/Mrs4s/go-cqhttp) 的 docker 镜像,添加了 ffmpeg ,支持语音转文字等功能。
 
 ### docker部署
