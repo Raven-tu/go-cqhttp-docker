@@ -34,7 +34,7 @@ jobs:
         # if: ${{ steps.checker.outputs.ifUpdated == 'true' }}
         run: |
           cd go-cqhttp-ffmpeg
-          curl -sSL -O https://github.com/Mrs4s/go-cqhttp/releases/download/${{ env.VERSION }}/go-cqhttp_linux_amd64.tar.gz
+          curl -sSL -O https://github.com/Mrs4s/go-cqhttp/releases/download/${{ env.version }}/go-cqhttp_linux_amd64.tar.gz
           tar -xzf go-cqhttp_linux_amd64.tar.gz go-cqhttp -O > cqhttp
 
       - name: Set up Docker Buildx
